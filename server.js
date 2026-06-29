@@ -4,13 +4,13 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
-const expenseRoutes = require("./routes/expenseRoutes");
+const ExpenseRoutes = require("./routes/ExpenseRoutes");
 const incomeRoutes = require("./routes/incomeRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const goalRoutes = require("./routes/goalRoutes");
 const budgetRoutes = require("./routes/budgetRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
-const loanRoutes = require("./routes/loanRoutes");
+const LoanRoutes = require("./routes/loanRoutes");
 
 dotenv.config();
 connectDB();
