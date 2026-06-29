@@ -3,15 +3,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
-const authRoutes = require("./routes/authRoutes");
-const ExpenseRoutes = require("./routes/ExpenseRoutes");
-const incomeRoutes = require("./routes/incomeRoutes");
-const transactionRoutes = require("./routes/transactionRoutes");
-const goalRoutes = require("./routes/goalRoutes");
-const budgetRoutes = require("./routes/budgetRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
-const LoanRoutes = require("./routes/loanRoutes");
-
 dotenv.config();
 connectDB();
 
@@ -21,33 +12,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const authRoutes = require("./routes/authRoutes");
+const expenseRoutes = require("./routes/expenseRoutes");
+const incomeRoutes = require("./routes/incomeRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
+const goalRoutes = require("./routes/goalRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const loanRoutes = require("./routes/loanRoutes");
+
 // Test Route
 app.get("/", (req, res) => {
     res.send("FinanceVerse Backend Running");
 });
 
-// AUTH ROUTES
+// API Routes
 app.use("/api/auth", authRoutes);
-
-// EXPENSE ROUTES
 app.use("/api/expenses", expenseRoutes);
-
-// INCOME ROUTES
 app.use("/api/income", incomeRoutes);
-
-// TRANSACTION ROUTES
 app.use("/api/transactions", transactionRoutes);
-
-//GOAL ROUTES
 app.use("/api/goals", goalRoutes);
-
-//BUDGET ROUTES
 app.use("/api/budgets", budgetRoutes);
-
-//DASHBOARD ROUTES
 app.use("/api/dashboard", dashboardRoutes);
-
-//LOAN ROUTES
 app.use("/api/loans", loanRoutes);
 
 const PORT = process.env.PORT || 5000;
