@@ -1,38 +1,43 @@
-const Income = require("../models/income");
-const Expense = require("../models/expense");
+const Income = require("../models/Income");
+const Expense = require("../models/Expense");
 
 const getDashboardData = async(req, res) => {
     try {
         const userId = req.user._id;
 
-        // Income
+        // Fetch Income
         const incomes = await Income.find({ user: userId });
 
         const totalIncome = incomes.reduce(
-            (sum, item) => sum + item.amount,
+            (sum, item) => sum + Number(item.amount),
             0
         );
 
-        // Expense
-        const expenses = await Expense.find({ userId });
+        // Fetch Expenses
+        const expenses = await Expense.find({ user: userId });
 
         const totalExpense = expenses.reduce(
-            (sum, item) => sum + item.amount,
+            (sum, item) => sum + Number(item.amount),
             0
         );
 
+        // Balance
         const balance = totalIncome - totalExpense;
 
-        res.json({
+        res.status(200).json({
             totalIncome,
             totalExpense,
             balance,
         });
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
             message: error.message,
         });
     }
 };
 
-module.exports = { getDashboardData };
+module.exports = {
+    getDashboardData,
+};

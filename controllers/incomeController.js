@@ -1,4 +1,4 @@
-const Income = require("../models/income");
+const Income = require("../models/Income");
 
 // ADD INCOME
 const addIncome = async(req, res) => {
