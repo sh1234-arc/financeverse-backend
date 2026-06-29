@@ -6,6 +6,11 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
 const incomeRoutes = require("./routes/incomeRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
+const goalRoutes = require("./routes/goalRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const loanRoutes = require("./routes/loanRoutes");
 
 dotenv.config();
 connectDB();
@@ -29,6 +34,21 @@ app.use("/api/expenses", expenseRoutes);
 
 // INCOME ROUTES
 app.use("/api/income", incomeRoutes);
+
+// TRANSACTION ROUTES
+app.use("/api/transactions", transactionRoutes);
+
+//GOAL ROUTES
+app.use("/api/goals", goalRoutes);
+
+//BUDGET ROUTES
+app.use("/api/budgets", budgetRoutes);
+
+//DASHBOARD ROUTES
+app.use("/api/dashboard", dashboardRoutes);
+
+//LOAN ROUTES
+app.use("/api/loans", loanRoutes);
 
 const PORT = process.env.PORT || 5000;
 
