@@ -9,7 +9,7 @@ const addExpense = async(req, res) => {
             title,
             amount,
             category,
-            userId: req.user._id,
+            user: req.user._id,
         });
 
         res.status(201).json({
@@ -29,7 +29,7 @@ const addExpense = async(req, res) => {
 const getExpenses = async(req, res) => {
     try {
         const expenses = await Expense.find({
-            userId: req.user._id,
+            user: req.user._id,
         }).sort({ createdAt: -1 });
 
         res.status(200).json(expenses);

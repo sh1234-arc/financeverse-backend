@@ -10,7 +10,7 @@ const getLoanEligibility = async(req, res) => {
 
         // Fetch user's expenses
         const expenses = await Expense.find({
-            user: req.user.id,
+            user: req.user_id,
         });
 
         // Total Income
