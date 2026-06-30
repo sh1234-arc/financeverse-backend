@@ -1,14 +1,15 @@
 const Transaction = require("../models/Transaction");
 
-// ==============================
-// Get All Transactions
-// ==============================
+// =====================================================
+// GET ALL TRANSACTIONS
+// =====================================================
 const getTransactions = async(req, res) => {
     try {
         const transactions = await Transaction.find({
             user: req.user.id,
         }).sort({ createdAt: -1 });
 
+        // IMPORTANT: return array directly
         res.status(200).json(transactions);
     } catch (error) {
         console.error("Get Transactions Error:", error);
@@ -19,19 +20,21 @@ const getTransactions = async(req, res) => {
     }
 };
 
-// ==============================
-// Add Transaction
-// ==============================
+// =====================================================
+// ADD TRANSACTION
+// =====================================================
 const addTransaction = async(req, res) => {
     try {
         const { title, category, amount, type } = req.body;
 
+        // validation
         if (!title || !category || !amount || !type) {
             return res.status(400).json({
                 message: "Please fill all fields",
             });
         }
 
+        // create transaction
         const transaction = await Transaction.create({
             user: req.user.id,
             title,
@@ -40,10 +43,8 @@ const addTransaction = async(req, res) => {
             type,
         });
 
-        res.status(201).json({
-            message: "Transaction Added Successfully",
-            transaction,
-        });
+        // IMPORTANT: return raw object (frontend friendly)
+        res.status(201).json(transaction);
 
     } catch (error) {
         console.error("Add Transaction Error:", error);
@@ -54,12 +55,11 @@ const addTransaction = async(req, res) => {
     }
 };
 
-// ==============================
-// Delete Transaction
-// ==============================
+// =====================================================
+// DELETE TRANSACTION
+// =====================================================
 const deleteTransaction = async(req, res) => {
     try {
-
         const transaction = await Transaction.findOne({
             _id: req.params.id,
             user: req.user.id,
@@ -71,7 +71,10 @@ const deleteTransaction = async(req, res) => {
             });
         }
 
-        await Transaction.findByIdAndDelete(req.params.id);
+        await Transaction.deleteOne({
+            _id: req.params.id,
+            user: req.user.id,
+        });
 
         res.status(200).json({
             message: "Transaction Deleted Successfully",
@@ -86,12 +89,11 @@ const deleteTransaction = async(req, res) => {
     }
 };
 
-// ==============================
-// Update Transaction
-// ==============================
+// =====================================================
+// UPDATE TRANSACTION
+// =====================================================
 const updateTransaction = async(req, res) => {
     try {
-
         const transaction = await Transaction.findOne({
             _id: req.params.id,
             user: req.user.id,
@@ -103,14 +105,15 @@ const updateTransaction = async(req, res) => {
             });
         }
 
-        const updatedTransaction =
-            await Transaction.findByIdAndUpdate(
-                req.params.id,
-                req.body, {
-                    new: true,
-                    runValidators: true,
-                }
-            );
+        const updatedTransaction = await Transaction.findOneAndUpdate({
+                _id: req.params.id,
+                user: req.user.id,
+            },
+            req.body, {
+                new: true,
+                runValidators: true,
+            }
+        );
 
         res.status(200).json(updatedTransaction);
 
