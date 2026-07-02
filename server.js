@@ -22,6 +22,10 @@ const budgetRoutes = require("./routes/budgetRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const loanRoutes = require("./routes/loanRoutes");
 
+// ✅ New Routes
+const profileRoutes = require("./routes/profileRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
+
 // Test Route
 app.get("/", (req, res) => {
     res.send("FinanceVerse Backend Running");
@@ -36,6 +40,10 @@ app.use("/api/goals", goalRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/loans", loanRoutes);
+
+// ✅ Profile & Settings
+app.use("/api/profile", profileRoutes);
+app.use("/api/settings", settingsRoutes);
 
 const PORT = process.env.PORT || 5000;
 
